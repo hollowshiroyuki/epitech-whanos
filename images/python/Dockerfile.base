@@ -1,0 +1,9 @@
+FROM python:3.10
+
+RUN mkdir /project
+
+ONBUILD WORKDIR /project
+
+ONBUILD COPY . .
+
+ONBUILD RUN pip install -r requirements.txt
