@@ -1,0 +1,11 @@
+FROM maven:3.8.5-openjdk-17
+
+RUN mkdir /project
+
+ONBUILD WORKDIR /project
+
+ONBUILD COPY . /project
+
+ONBUILD WORKDIR /project/app
+
+ONBUILD RUN mvn package
