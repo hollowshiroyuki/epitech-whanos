@@ -1,0 +1,11 @@
+FROM node:14.17.5-alpine
+
+RUN mkdir /project
+
+ONBUILD WORKDIR /project
+
+ONBUILD COPY . .
+
+ONBUILD RUN npm i
+
+ONBUILD ENTRYPOINT ["node", "."]
