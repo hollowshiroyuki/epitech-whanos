@@ -1,0 +1,7 @@
+FROM whanos-java AS builder
+
+FROM openjdk:17-alpine
+
+COPY --from=builder /project/target/app.jar .
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
