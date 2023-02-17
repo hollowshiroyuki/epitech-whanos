@@ -1,0 +1,4 @@
+---
+- name: jenkins
+  debug:
+    msg: "Jenkins OK"

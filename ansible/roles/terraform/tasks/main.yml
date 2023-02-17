@@ -1,0 +1,19 @@
+---
+- name: create instances
+  terraform:
+    project_path: "../terraform"
+    state: present
+    force_init: true
+  register: infra
+
+# - name: show infrastructure shape
+#   debug:
+#     var: "infra"
+
+# TODO : Write IPs to host.txt file so we don't get marked as "changed"
+# Prob better done in Terraform
+- name: add jenkins ips to group
+  add_host:
+    name: "{{ infra.outputs.jenkins.value.ipv4_address }}"
+    groups: "jenkins"
+    ansible_user: root
