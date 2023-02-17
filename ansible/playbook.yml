@@ -1,0 +1,20 @@
+---
+- name: terraform infrastructure
+  hosts: localhost
+  roles:
+    - terraform
+
+- name: deploy jenkins
+  hosts: jenkins
+  roles:
+    - jenkins
+
+# - name: common config
+#   hosts: all
+#   roles:
+#     - common
+# 
+# - name: jenkins config
+#   hosts: jenkins
+#   roles:
+#     - jenkins
