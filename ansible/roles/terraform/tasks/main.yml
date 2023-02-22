@@ -4,6 +4,9 @@
     project_path: "../terraform"
     state: present
     force_init: true
+    variables:
+      domain: "{{ domain }}"
+      jenkins_domain: "{{ jenkins_domain }}"
   register: infra
 
 # - name: show infrastructure shape
@@ -17,3 +20,10 @@
     name: "{{ infra.outputs.jenkins.value.ipv4_address }}"
     groups: "jenkins"
     ansible_user: root
+
+- name: wait for the droplets to be live
+  wait_for:
+    port: 22
+    host: "{{ item }}"
+  with_items:
+    - "{{ groups['jenkins'] }}"

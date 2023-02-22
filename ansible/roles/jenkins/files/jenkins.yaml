@@ -7,15 +7,15 @@ jenkins:
       allowsSignup: false
       users:
         - id: admin
-          name: "Admin"
-          password: ${ADMIN_PASSWORD}
+          name: ${JENKINS_ADMIN_USER}
+          password: ${JENKINS_ADMIN_PASS}
   authorizationStrategy:
     roleBased:
       roles:
         global:
         - assignments:
           - "admin"
-          name: "Admin"
+          name: "admin"
           description: "Yobwhamos Creator"
           pattern: ".*"
           permissions:
