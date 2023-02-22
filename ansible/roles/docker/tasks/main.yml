@@ -1,0 +1,44 @@
+---
+# Install Docker on Ubuntu 20.04
+# https://www.digitalocean.com/community/tutorials/how-to-use-ansible-to-install-and-set-up-docker-on-ubuntu-20-04
+
+- name: install required packages
+  apt:
+    pkg:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+      - python3-pip
+      - python3-setuptools
+    state: latest
+    update_cache: true
+
+- name: add docker gpg apt keys
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: add docker repository
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu focal stable
+    state: present
+
+- name: update apt and install docker-ce
+  apt:
+    name: docker-ce
+    state: latest
+    update_cache: true
+
+- name: install docker and docker-compose python modules
+  pip:
+    name: "{{ item }}"
+  loop:
+    - docker
+    - docker-compose
+
+- name: start docker service
+  systemd:
+    name: docker
+    daemon_reload: true
+    state: started

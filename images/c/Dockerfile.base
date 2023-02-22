@@ -1,0 +1,10 @@
+FROM gcc:11.2.0
+
+RUN mkdir /project
+
+ONBUILD WORKDIR /project
+
+ONBUILD COPY . /project
+
+ONBUILD RUN make
+

@@ -1,0 +1,42 @@
+---
+- name: create jenkins directory
+  file:
+    path: ~/jenkins
+    state: directory
+
+- name: create jenkins directory tree
+  file:
+    path: ~/jenkins/{{ item.path }}
+    state: directory
+  with_filetree: files/
+  when: item.state == 'directory'
+
+- name: copy jenkins files
+  copy:
+    src: "{{ item.src }}"
+    dest: ~/jenkins/{{ item.path }}
+  with_filetree: files/
+  when: item.state == 'file'
+
+- name: build jenkins image
+  community.docker.docker_image:
+    name: whanos-jenkins
+    build:
+      path: ~/jenkins
+    source: build
+    state: present
+
+- name: deploy jenkins
+  community.docker.docker_compose:
+    project_src: ~/jenkins
+    restarted: true
+    state: present
+  environment:
+    JENKINS_ADMIN_USER: "{{ jenkins_admin_user }}"
+    JENKINS_ADMIN_PASS: "{{ jenkins_admin_pass }}"
+    # JENKINS_FULL_DOMAIN: "{{ jenkins_domain }}.{{ domain }}"
+    JENKINS_FULL_DOMAIN: "{{ groups['jenkins'][0] }}:80"
+
+- name: jenkins
+  debug:
+    msg: "Jenkins OK"

@@ -1,0 +1,7 @@
+FROM whanos-c AS BUILDER
+
+FROM debian:buster
+
+COPY --from=BUILDER /project/compiled-app .
+
+ENTRYPOINT [ "/compiled-app" ]
