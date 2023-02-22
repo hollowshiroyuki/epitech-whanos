@@ -2,4 +2,4 @@
 
 export ANSIBLE_HOST_KEY_CHECKING=False
 
-ansible-playbook ansible/playbook.yml -i hosts.txt
+ansible-playbook ansible/playbook.yml -i hosts.txt $@

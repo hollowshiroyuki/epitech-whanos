@@ -1,0 +1,27 @@
+jenkins:
+  remotingSecurity:
+    enabled: true
+  systemMessage: "Welcome to the Great Yobwhamos Jenkins."
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: admin
+          name: ${JENKINS_ADMIN_USER}
+          password: ${JENKINS_ADMIN_PASS}
+  authorizationStrategy:
+    roleBased:
+      roles:
+        global:
+        - assignments:
+          - "admin"
+          name: "admin"
+          description: "Yobwhamos Creator"
+          pattern: ".*"
+          permissions:
+          - "Overall/Administer"
+security:
+  globalJobDslSecurityConfiguration:
+    useScriptSecurity: false
+jobs:
+  - file: /var/jenkins_home/job_dsl.groovy

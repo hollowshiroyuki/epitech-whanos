@@ -2,16 +2,40 @@ provider "digitalocean" {
   token = var.do_token
 }
 
+data "digitalocean_project" "project" {
+  name = var.do_project
+}
+
+# Provided by ansible
+# data "digitalocean_domain" "domain" {
+#   name = var.domain
+# }
+
 resource "digitalocean_droplet" "jenkins" {
-  name = "whanos-jenkins"
-  image = "ubuntu-20-04-x64"
+  name = "jenkins"
+  image = "ubuntu-22-10-x64"
   region = "fra1"
   size = "s-1vcpu-1gb"
 
   ssh_keys = [
-    var.ssh_key_id
+    var.do_ssh_key_id
   ]
 }
+
+resource "digitalocean_project_resources" "project_resources" {
+  project = data.digitalocean_project.project.id
+  resources = [
+    digitalocean_droplet.jenkins.urn
+  ]
+}
+
+# resource "digitalocean_record" "jenkins_record" {
+#   name = var.jenkins_domain
+#   domain = data.digitalocean_domain.domain.id
+#   type = "A"
+#   value = digitalocean_droplet.jenkins.ipv4_address
+#   ttl = 60
+# }
 
 # data "digitalocean_kubernetes_versions" "k8s_versions" {}
 # 

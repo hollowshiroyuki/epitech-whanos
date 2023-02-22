@@ -3,11 +3,22 @@
   hosts: localhost
   roles:
     - terraform
+  vars_files:
+    - ./variables.yml
+
+- name: setup docker
+  hosts: jenkins
+  roles:
+    - docker
+  vars_files:
+    - ./variables.yml
 
 - name: deploy jenkins
   hosts: jenkins
   roles:
     - jenkins
+  vars_files:
+    - ./variables.yml
 
 # - name: common config
 #   hosts: all
