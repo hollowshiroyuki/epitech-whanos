@@ -1,31 +1,59 @@
 ---
 - name: terraform infrastructure
   hosts: localhost
+  tags: deploy
   roles:
     - terraform
   vars_files:
     - ./variables.yml
 
+- name: ubuntu specific setup
+  hosts: 
+    - jenkins
+    - registry
+  tags: deploy
+  roles:
+    - ubuntu
+  vars_files:
+    - ./variables.yml
+
 - name: setup docker
-  hosts: jenkins
+  hosts:
+    - jenkins
+    - registry
+  tags: deploy
   roles:
     - docker
   vars_files:
     - ./variables.yml
 
+- name: deploy registry
+  hosts: registry
+  tags: deploy
+  roles:
+    - registry
+  vars_files:
+    - ./variables.yml
+
 - name: deploy jenkins
   hosts: jenkins
+  tags: deploy
   roles:
     - jenkins
   vars_files:
     - ./variables.yml
 
-# - name: common config
-#   hosts: all
-#   roles:
-#     - common
-# 
-# - name: jenkins config
-#   hosts: jenkins
-#   roles:
-#     - jenkins
+- name: terraform destroy
+  hosts: localhost
+  tags: destroy
+  vars_files:
+    - ./variables.yml
+  tasks:
+    - name: terraform destroy
+      terraform:
+        project_path: ../terraform
+        state: absent
+        variables:
+          domain: "{{ domain }}"
+          jenkins_domain: "{{ jenkins_domain }}"
+          registry_domain: "{{ registry_domain }}"

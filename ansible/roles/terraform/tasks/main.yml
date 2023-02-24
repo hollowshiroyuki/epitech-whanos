@@ -1,4 +1,8 @@
 ---
+- name: don't terraform if hosts.txt is provided
+  meta: end_host
+  when: lookup('fileglob', '../../../hosts.txt')
+
 - name: create instances
   terraform:
     project_path: "../terraform"
@@ -7,6 +11,7 @@
     variables:
       domain: "{{ domain }}"
       jenkins_domain: "{{ jenkins_domain }}"
+      registry_domain: "{{ registry_domain }}"
   register: infra
 
 # - name: show infrastructure shape
@@ -15,10 +20,16 @@
 
 # TODO : Write IPs to host.txt file so we don't get marked as "changed"
 # Prob better done in Terraform
-- name: add jenkins ips to group
+- name: add jenkins ip to group
   add_host:
     name: "{{ infra.outputs.jenkins.value.ipv4_address }}"
     groups: "jenkins"
+    ansible_user: root
+
+- name: add registry ip to group
+  add_host:
+    name: "{{ infra.outputs.registry.value.ipv4_address }}"
+    groups: "registry"
     ansible_user: root
 
 - name: wait for the droplets to be live
@@ -27,3 +38,4 @@
     host: "{{ item }}"
   with_items:
     - "{{ groups['jenkins'] }}"
+    - "{{ groups['registry'] }}"

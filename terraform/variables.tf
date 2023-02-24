@@ -32,3 +32,9 @@ variable "domain" {
 variable "jenkins_domain" {
   type = string
 }
+
+# Registry Domain
+# The docker registry domain
+variable "registry_domain" {
+  type = string
+}
