@@ -1,0 +1,34 @@
+---
+- name: create registry directory
+  file:
+    path: ~/registry
+    state: directory
+
+- name: create registry directory tree
+  file:
+    path: ~/registry/{{ item.path }}
+    state: directory
+  with_filetree: files/
+  when: item.state == 'directory'
+
+- name: copy registry files
+  copy:
+    src: "{{ item.src }}"
+    dest: ~/registry/{{ item.path }}
+  with_filetree: files/
+  when: item.state == 'file'
+
+- name: deploy docker registry
+  community.docker.docker_compose:
+    project_src: ~/registry
+    # restarted: true
+    state: present
+  environment:
+    REGISTRY_FULL_DOMAIN: "{{ registry_domain }}.{{ domain }}"
+    REGISTRY_USER_NAME: "{{ registry_user_name }}"
+    REGISTRY_USER_PASS: "{{ registry_user_pass }}"
+    REGISTRY_HASHED_PASS: "{{ registry_user_pass  | password_hash('bcrypt', 'UyvOEfuaB3aaXB29jFe5og') | b64encode }}"
+
+- name: registry  
+  debug:
+    msg: "Registry OK"

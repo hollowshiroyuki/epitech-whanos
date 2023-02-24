@@ -9,10 +9,14 @@
       - ca-certificates
       - curl
       - software-properties-common
-      - python3-pip
       - python3-setuptools
     state: latest
     update_cache: true
+  # https://github.com/ansible/ansible/issues/51663
+  register: result
+  until: result is not failed
+  retries: 5
+  delay: 5
 
 - name: add docker gpg apt keys
   apt_key:

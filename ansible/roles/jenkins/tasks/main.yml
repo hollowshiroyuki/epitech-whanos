@@ -29,13 +29,13 @@
 - name: deploy jenkins
   community.docker.docker_compose:
     project_src: ~/jenkins
-    restarted: true
+    # restarted: true
     state: present
   environment:
     JENKINS_ADMIN_USER: "{{ jenkins_admin_user }}"
     JENKINS_ADMIN_PASS: "{{ jenkins_admin_pass }}"
-    # JENKINS_FULL_DOMAIN: "{{ jenkins_domain }}.{{ domain }}"
-    JENKINS_FULL_DOMAIN: "{{ groups['jenkins'][0] }}:80"
+    JENKINS_FULL_DOMAIN: "{{ jenkins_domain }}.{{ domain }}"
+    # JENKINS_FULL_DOMAIN: "{{ groups['jenkins'][0] }}:80"
 
 - name: jenkins
   debug:
