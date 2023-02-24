@@ -9,7 +9,7 @@ The ultimate crossover with Yoda, Obama, Thanos and a Whale.
 - The domain must be managed by Digital Ocean (https://cloud.digitalocean.com/networking/domains)
 - Copy the `terrform.example.tfvars` to `terraform.tfvars` in the `terraform` directory and fill in your configuration.
 - Copy the `variables.example.yml` to `variables.yml` in the `ansible` directory and fill in your configuration
-- Run `./deploy.sh`
+- Run `./deploy.sh deploy`
 </details>
 
 <details>
@@ -25,17 +25,14 @@ The ultimate crossover with Yoda, Obama, Thanos and a Whale.
 [jenkins]
 <Jenkins IP>
 ```
-- Run `./deploy.sh`
+- Run `./deploy.sh deploy`
 </details>
 
 ## How to undeploy ?
 <details>
 <summary>With Terraform and Digital Ocean</summary>
 
-(Temp stuff here)
-- Just run `cd terraform && terraform destroy`
-- Press enter 2 times to skip the variables input
-- Answer 'yes'
+- Run  `./deploy.sh destroy`
 </details>
 
 <details>
