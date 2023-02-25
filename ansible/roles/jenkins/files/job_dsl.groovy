@@ -27,6 +27,10 @@ freeStyleJob("link-project") {
     parameters {
         stringParam('GIT_NAME', null, 'Git repository owner/repo_name (e.g.: "https://git.sr.ht/~hollow/Homelab")')
         stringParam('DISPLAY_NAME', null, 'Display name for the job')
+        credentialsParam('CREDENTIALS') {
+            description('If you hide things from sight with some credentials imput them here :D')
+            required(false)
+        }
     }
     steps {
         dsl{
@@ -34,7 +38,7 @@ freeStyleJob("link-project") {
                 |  scm {
                 |   git {
                 |    remote {
-                |       credentials("ahha")
+                |       credentials("${CREDENTIALS}")
                 |       name("origin")
                 |       url("${GIT_NAME}")
                 |    }
