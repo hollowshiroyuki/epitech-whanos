@@ -50,25 +50,26 @@ resource "digitalocean_record" "registry_record" {
   ttl = 60
 }
 
+data "digitalocean_kubernetes_versions" "k8s_versions" {}
+
+resource "digitalocean_kubernetes_cluster" "k8" {
+  name = "k8"
+  region = "fra1"
+  version = data.digitalocean_kubernetes_versions.k8s_versions.latest_version
+
+  node_pool {
+    name = "k8-workers"
+    size = "s-1vcpu-2gb"
+    node_count = 2
+  }
+}
+
 # Resources
 resource "digitalocean_project_resources" "project_resources" {
   project = data.digitalocean_project.project.id
   resources = [
     digitalocean_droplet.jenkins.urn,
-    digitalocean_droplet.registry.urn
+    digitalocean_droplet.registry.urn,
+    digitalocean_kubernetes_cluster.k8.urn
   ]
 }
-
-# data "digitalocean_kubernetes_versions" "k8s_versions" {}
-# 
-# resource "digitalocean_kubernetes_cluster" "k8" {
-#   name = "whanos-k8"
-#   region = "fra1"
-#   version = data.digitalocean_kubernetes_versions.k8s_versions.latest_version
-# 
-#   node_pool {
-#     name = "whanos-worker-pool"
-#     size = "s-1vcpu-2gb"
-#     node_count = 2
-#   }
-# }

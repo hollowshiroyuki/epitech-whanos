@@ -21,3 +21,11 @@ do_ssh_key_id = "xx:xx:xx:xx:..."
 # Project Domain
 # The main domain of the project
 # domain = "yobwhamos.cloud"
+
+# Jenkins Domain
+# The jenkins subdomain
+# jenkins_domain = "jenkins"
+
+# Registry Domain
+# The docker registry subdomain
+# registry_domain = "registry"

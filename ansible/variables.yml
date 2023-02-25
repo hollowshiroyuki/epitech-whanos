@@ -13,5 +13,7 @@ jenkins_admin_pass: admin
 ## Registry Configuration ###
 # Registry subdomain (will be resolved as $registry_domain.$domain)
 registry_domain: registry
+
+# Registry credentials
 registry_user_name: registry # Currently unusable, defaults to "registry"
 registry_user_pass: password
