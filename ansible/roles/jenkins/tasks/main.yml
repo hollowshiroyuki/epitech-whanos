@@ -26,6 +26,10 @@
     source: build
     state: present
 
+# - name: print k8 config
+#   debug:
+#     var: hostvars['localhost'].k8_config
+
 - name: deploy jenkins
   community.docker.docker_compose:
     project_src: ~/jenkins

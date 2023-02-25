@@ -1,7 +1,9 @@
 ---
 - name: terraform infrastructure
   hosts: localhost
-  tags: deploy
+  tags:
+    - deploy
+    - terraform
   roles:
     - terraform
   vars_files:

@@ -5,6 +5,7 @@
     enabled: false
     daemon_reload: true
     name: unattended-upgrades
+
 - name: install required packages
   apt:
     pkg:
