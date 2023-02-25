@@ -28,6 +28,7 @@ services:
       - jenkins_data:/var/lib/jenkins
       - ~/jenkins/jenkins.yaml:/var/jenkins_home/casc_configs/jenkins.yaml:ro
       - ~/jenkins/job_dsl.groovy:/var/jenkins_home/job_dsl.groovy:ro
+      - ~/jenkins/images:/var/jenkins_home/images:ro
     labels:
       caddy: "${JENKINS_FULL_DOMAIN}"
       caddy.reverse_proxy: "jenkins:8080"
