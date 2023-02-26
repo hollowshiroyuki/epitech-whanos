@@ -1,7 +1,7 @@
 ---
-- name: don't terraform if hosts.txt is provided
+- name: don't terraform if the variables file doesn't exists
   meta: end_host
-  when: lookup('fileglob', '../../../hosts.txt')
+  when: not lookup('fileglob', '../../../terraform/terraform.tfvars')
 
 - name: create instances
   terraform:
@@ -18,19 +18,24 @@
 #   debug:
 #     var: "infra"
 
-# TODO : Write IPs to host.txt file so we don't get marked as "changed"
-# Prob better done in Terraform
 - name: add jenkins ip to group
   add_host:
     name: "{{ infra.outputs.jenkins.value.ipv4_address }}"
     groups: "jenkins"
     ansible_user: root
+  changed_when: infra.changed
 
 - name: add registry ip to group
   add_host:
     name: "{{ infra.outputs.registry.value.ipv4_address }}"
     groups: "registry"
     ansible_user: root
+  changed_when: infra.changed
+
+- name: register k8 config
+  set_fact:
+    k8_config: "{{ infra.outputs.k8.value.kube_config[0].raw_config }}"
+  changed_when: infra.changed
 
 - name: wait for the droplets to be live
   wait_for:

@@ -18,6 +18,11 @@
   with_filetree: files/
   when: item.state == 'file'
 
+- name: create kubeconfig
+  copy:
+    content: "{{ hostvars['localhost'].k8_config }}"
+    dest: "~/jenkins/kubeconfig.yml"
+
 - name: build jenkins image
   community.docker.docker_image:
     name: whanos-jenkins
@@ -25,6 +30,10 @@
       path: ~/jenkins
     source: build
     state: present
+
+# - name: print k8 config
+#   debug:
+#     var: hostvars['localhost'].k8_config
 
 - name: deploy jenkins
   community.docker.docker_compose:
