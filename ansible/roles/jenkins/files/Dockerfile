@@ -19,7 +19,7 @@ RUN usermod -aG docker jenkins
 
 USER jenkins
 
-COPY --chmod=555 link-project.sh /var/jenkins_home/link-project.sh
+COPY link-project.sh /var/jenkins_home/link-project.sh
 
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 
