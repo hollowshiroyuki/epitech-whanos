@@ -15,6 +15,7 @@
   copy:
     src: "{{ item.src }}"
     dest: ~/jenkins/{{ item.path }}
+    mode: preserve
   with_filetree: files/
   when: item.state == 'file'
 
