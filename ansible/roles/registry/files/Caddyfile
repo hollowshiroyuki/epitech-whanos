@@ -1,0 +1,7 @@
+# args.0 => Username
+# args.1 => HASHED Password
+(basic_auth) {
+    basicauth * bcrypt {
+        {args.0} {args.1}
+    }
+}
