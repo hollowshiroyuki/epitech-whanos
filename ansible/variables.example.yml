@@ -18,5 +18,9 @@ jenkins_admin_pass: admin
 registry_domain: registry
 
 # Registry credentials
-registry_user_name: registry # Currently unusable, defaults to "registry"
+registry_user_name: registry
 registry_user_pass: registry
+
+# Used to protect the password against rainbow table attacks
+# MUST BE a random 22 characters base64 value
+registry_pass_salt: UyvOEfuaB3aaXB29jFe5og

@@ -15,11 +15,16 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - caddy_data:/data
+      - ~/registry/Caddyfile:/opt/Caddyfile
     restart: unless-stopped
+    environment:
+      CADDY_DOCKER_CADDYFILE_PATH: /opt/Caddyfile
     labels:
       caddy: "${REGISTRY_FULL_DOMAIN:-localhost:80}"
-      caddy.basicauth: "* bcrypt"
-      caddy.basicauth.registry: "${REGISTRY_HASHED_PASS:-JDJ5JDEwJFZ4TlpxNkRuZWNnU1pPRXZUeHkyM2U3R0hPbnQ2OUFlY01ZQll4OWVUam9pWlQyOEdmQ055Cg==}"
+      # This is a patch over a patch wtf
+      caddy.import: "basic_auth ${REGISTRY_USER_NAME} ${REGISTRY_HASHED_PASS}"
+      # caddy.basicauth: "* bcrypt"
+      # caddy.basicauth.registry: "${REGISTRY_HASHED_PASS:-JDJ5JDEwJFZ4TlpxNkRuZWNnU1pPRXZUeHkyM2U3R0hPbnQ2OUFlY01ZQll4OWVUam9pWlQyOEdmQ055Cg==}"
       # For now registry user is hardcoded to "registry"
       # Default password is "registry"
       # https://github.com/lucaslorentz/caddy-docker-proxy/issues/466

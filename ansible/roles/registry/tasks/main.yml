@@ -27,7 +27,7 @@
     REGISTRY_FULL_DOMAIN: "{{ registry_domain }}.{{ domain }}"
     REGISTRY_USER_NAME: "{{ registry_user_name }}"
     REGISTRY_USER_PASS: "{{ registry_user_pass }}"
-    REGISTRY_HASHED_PASS: "{{ registry_user_pass  | password_hash('bcrypt', 'UyvOEfuaB3aaXB29jFe5og') | b64encode }}"
+    REGISTRY_HASHED_PASS: "{{ registry_user_pass  | password_hash('bcrypt', registry_pass_salt) | b64encode }}"
 
 - name: registry  
   debug:
