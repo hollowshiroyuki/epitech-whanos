@@ -1,0 +1,33 @@
+ARG BEFUNGE93_VERSION=rel_2_25
+
+FROM gcc:11.2.0 AS BUILDER
+
+RUN git clone https://github.com/catseye/Befunge-93.git &&\
+    cd Befunge-93 &&\
+    git checkout $BEFUNGE93_VERSION
+
+RUN gcc -o bef Befunge-93/src/bef.c
+
+FROM debian:buster
+
+COPY --from=BUILDER /bef /usr/bin
+
+RUN mkdir /project
+
+WORKDIR /project
+
+ONBUILD COPY . .
+
+ONBUILD ENTRYPOINT ["bef", "-q", "app/main.bf"]
+
+# RIP my compiled befunge attempt ;-;
+# RUN gcc -o /usr/bin/bef2c Befunge-93/src/bef2c.c
+# 
+# RUN mkdir /project
+# 
+# WORKDIR /project
+# 
+# ONBUILD COPY . /project
+# 
+# ONBUILD RUN bef2c ./app/main.bf /tmp/main.c &&\
+#             gcc -o /project/compiled-app /tmp/main.c
