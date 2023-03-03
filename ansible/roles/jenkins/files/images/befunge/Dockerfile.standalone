@@ -1,0 +1,8 @@
+FROM whanos-befunge
+
+# RIP my compiled befunge attempt ;-;
+# FROM debian:buster
+# 
+# COPY --from=BUILDER /project/compiled-app .
+# 
+# ENTRYPOINT [ "/compiled-app" ]
